@@ -13,6 +13,7 @@
 		580F721A266A9F140037D797 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 580F7219266A9F140037D797 /* Preview Assets.xcassets */; };
 		580F7225266A9F140037D797 /* WeatherSearchingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580F7224266A9F140037D797 /* WeatherSearchingTests.swift */; };
 		580F7230266A9F140037D797 /* WeatherSearchingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580F722F266A9F140037D797 /* WeatherSearchingUITests.swift */; };
+		58183E06266B54A1003A3D84 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58183E05266B54A1003A3D84 /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		580F722B266A9F140037D797 /* WeatherSearchingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherSearchingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		580F722F266A9F140037D797 /* WeatherSearchingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSearchingUITests.swift; sourceTree = "<group>"; };
 		580F7231266A9F140037D797 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		58183E05266B54A1003A3D84 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 		580F7211266A9F130037D797 /* WeatherSearching */ = {
 			isa = PBXGroup;
 			children = (
+				58183E04266B5438003A3D84 /* Utilities */,
 				580F7212266A9F130037D797 /* WeatherSearchingApp.swift */,
 				580F7214266A9F130037D797 /* ContentView.swift */,
 				580F7216266A9F140037D797 /* Assets.xcassets */,
@@ -128,6 +131,14 @@
 				580F7231266A9F140037D797 /* Info.plist */,
 			);
 			path = WeatherSearchingUITests;
+			sourceTree = "<group>";
+		};
+		58183E04266B5438003A3D84 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				58183E05266B54A1003A3D84 /* NetworkManager.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58183E06266B54A1003A3D84 /* NetworkManager.swift in Sources */,
 				580F7215266A9F130037D797 /* ContentView.swift in Sources */,
 				580F7213266A9F130037D797 /* WeatherSearchingApp.swift in Sources */,
 			);
