@@ -25,9 +25,9 @@ class NetworkManager {
             .result()
     }
     
-    func getWeatherByZipcode(code: String) -> AnyPublisher<Result<WeatherModel, AFError>, Never> {
+    func getWeatherByZipcode(code: String, country: String) -> AnyPublisher<Result<WeatherModel, AFError>, Never> {
         return get(urlPath: kGetWeather)
-            .addParam(key: "zip", value: code)
+            .addParam(key: "zip", value: "\(code),\(country)")
             .addParam(key: "units", value: "metric")
             .callPublisher()
             .result()
@@ -71,8 +71,12 @@ struct RequestBuilder {
     
     func callPublisher<T: Decodable>() -> DataResponsePublisher<T> {
         return AF.request(urlPath, method: method, parameters: params, encoding: encoding, interceptor: adapter)
-            .validate()
-            .publishDecodable()
+            .validate({ request, response, data in
+                print("statusCode: " + "\(response.statusCode)")
+                print("full response: " + "\n" + response.description)
+                print("full data: " + "\n" + (data?.description ?? "Nil"))
+                return .success(())
+            }).publishDecodable()
     }
     
     func addParam(key: String, value: Any) -> Self {

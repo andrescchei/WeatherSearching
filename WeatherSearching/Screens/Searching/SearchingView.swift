@@ -9,14 +9,45 @@
 import SwiftUI
 
 struct SearchingView: View {
-    @ObservedObject var vm = SearchingVM()
+    @StateObject var vm = SearchingVM()
     @State private var errorMessage: String? = nil
     @State private var weatherModel: WeatherModel? = nil
+    let searchByAll: [SearchBy] = SearchBy.allCases
+    @State private var countries = ResourcesManager.shared.countryList
     
     var body: some View {
         VStack {
-            TextField("City name or zip", text: $vm.name)
-                .padding()
+            Picker("Search By:", selection: $vm.searchBy) {
+                ForEach(searchByAll, id: \.self) { _searchBy in
+                    Text(_searchBy.getDisplayName())
+                }
+            }.pickerStyle(SegmentedPickerStyle())
+            .frame(maxHeight: 50)
+
+            if vm.searchBy == .zipcode {
+                Picker("", selection: $vm.selectedCountry) {
+                    ForEach(countries, id: \.self) { country in
+                        Text(country.name).tag(country.alpha_2)
+                    }
+                }
+            }
+
+            HStack {
+                switch vm.searchBy {
+                case .name:
+                    TextField("\(vm.searchBy.getDisplayName())", text: $vm.name)
+                        .padding()
+                case .zipcode:
+                    TextField("\(vm.searchBy.getDisplayName())", text: $vm.zipcode)
+                        .padding()
+                case .location:
+                    TextField("Lon", text: $vm.lon)
+                        .padding()
+                    TextField("Lat", text: $vm.lat)
+                        .padding()
+                }
+            }
+
             SubscriptionView(
                 content:
                     VStack(spacing: 8.0) {
