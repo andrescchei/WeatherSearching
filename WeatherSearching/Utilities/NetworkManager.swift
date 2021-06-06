@@ -71,12 +71,8 @@ struct RequestBuilder {
     
     func callPublisher<T: Decodable>() -> DataResponsePublisher<T> {
         return AF.request(urlPath, method: method, parameters: params, encoding: encoding, interceptor: adapter)
-            .validate({ request, response, data in
-                print("statusCode: " + "\(response.statusCode)")
-                print("full response: " + "\n" + response.description)
-                print("full data: " + "\n" + (data?.description ?? "Nil"))
-                return .success(())
-            }).publishDecodable()
+            .validate()
+            .publishDecodable()
     }
     
     func addParam(key: String, value: Any) -> Self {

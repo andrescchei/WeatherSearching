@@ -11,7 +11,7 @@ typealias TimeInterval = Double
 
 struct WeatherModel : Decodable {
     let coord: Coordinate?
-    let weather: [WeatherConditionItem]
+    let weather: [WeatherConditionItem]?
     let base: String?
     let main: WeatherMain?
     let visibility: Double?
@@ -65,8 +65,8 @@ struct Clouds : Decodable {
 }
 
 struct Volume : Decodable {
-    let h1: Double
-    let h3: Double
+    let h1: Double?
+    let h3: Double?
 }
 
 //sys
