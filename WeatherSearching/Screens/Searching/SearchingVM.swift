@@ -32,7 +32,7 @@ final class SearchingVM: ObservableObject {
     @Published var zipcode = ""
     @Published var lon = ""
     @Published var lat = ""
-    @Published var selectedCountry: String = ""
+    @Published var selectedCountry: String = ResourcesManager.shared.countryList.first?.alpha_2 ?? ""
   
     // output
     @Published var result: Result<WeatherModel, AFError>? = nil
@@ -106,8 +106,15 @@ final class SearchingVM: ObservableObject {
             }) { [weak self] result in
                 print("getWeather result \(result)")
                 self?.result = result
+                guard let _result = try? result.get() else { return }
+                UserDefaultsManager.shared.addSearch(_result)
             }
             .store(in: &bag)
+        
+        UserDefaultsManager.shared.$searches.sink { array in
+            print("DLLM")
+            print(array.first)
+        }.store(in: &bag)
     }
 
 }

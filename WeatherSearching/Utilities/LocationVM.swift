@@ -9,6 +9,8 @@ import Foundation
 import CoreLocation
 
 final class LocationVM: NSObject, ObservableObject {
+    
+    static let shared = LocationVM()
     let locationManager = CLLocationManager()
     
     @Published var latitude: Double = 0
@@ -21,12 +23,18 @@ final class LocationVM: NSObject, ObservableObject {
     }
     
     func requestPermission() {
-        self.locationManager.requestAlwaysAuthorization()
-        self.locationManager.requestWhenInUseAuthorization()
+        if self.locationManager.authorizationStatus == .authorizedWhenInUse || self.locationManager.authorizationStatus == .authorizedAlways {
+        } else {
+            self.locationManager.requestAlwaysAuthorization()
+            self.locationManager.requestWhenInUseAuthorization()
+        }
     }
     
     func startUpdatingLocation() {
         self.locationManager.startUpdatingLocation()
+    }
+    func stopUpdatingLocation() {
+        self.locationManager.stopUpdatingLocation()
     }
 }
 
@@ -36,7 +44,7 @@ extension LocationVM : CLLocationManagerDelegate {
             case .notDetermined:
                 print("notDetermined")
             case .authorizedWhenInUse, .authorizedAlways:
-                self.locationManager.startUpdatingLocation()
+                self.startUpdatingLocation()
             case .restricted:
                 print("restricted")
             case .denied:
@@ -51,5 +59,5 @@ extension LocationVM : CLLocationManagerDelegate {
         latitude = location.coordinate.latitude
         longitude = location.coordinate.longitude
         print(location)
-      }
+    }
 }

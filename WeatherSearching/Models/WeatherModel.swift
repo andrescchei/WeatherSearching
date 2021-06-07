@@ -9,7 +9,7 @@ import Foundation
 
 typealias TimeInterval = Double
 
-struct WeatherModel : Decodable {
+struct WeatherModel : Codable {
     let coord: Coordinate?
     let weather: [WeatherConditionItem]?
     let base: String?
@@ -27,13 +27,13 @@ struct WeatherModel : Decodable {
 }
 
 //coord
-struct Coordinate  : Decodable{
+struct Coordinate  : Codable {
     let lon: Double?
     let lat: Double?
 }
 
 //weather
-struct WeatherConditionItem : Decodable {
+struct WeatherConditionItem : Codable {
     let id: Int?
     let main: String?
     let description: String?
@@ -41,7 +41,7 @@ struct WeatherConditionItem : Decodable {
 }
 
 //main
-struct WeatherMain : Decodable {
+struct WeatherMain : Codable {
     let temp: Double?
     let feels_like: Double?
     let temp_min: Double?
@@ -53,24 +53,24 @@ struct WeatherMain : Decodable {
 }
 
 //wind
-struct Wind : Decodable {
+struct Wind : Codable {
     let speed: Double?
     let deg: Double?
     let gust: Double?
 }
 
 //clouds
-struct Clouds : Decodable {
+struct Clouds : Codable {
     let all: Double?
 }
 
-struct Volume : Decodable {
+struct Volume : Codable {
     let h1: Double?
     let h3: Double?
 }
 
 //sys
-struct WeatherSystem : Decodable {
+struct WeatherSystem : Codable {
     let type: Int?
     let id: Int?
     let country: String?
