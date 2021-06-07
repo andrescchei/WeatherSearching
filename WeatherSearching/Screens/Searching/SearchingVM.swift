@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import Alamofire
+import CoreLocation
 
 enum SearchBy: CaseIterable {
     case name, zipcode, location

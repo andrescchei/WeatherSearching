@@ -5,11 +5,12 @@
 //  Created by Andres Chan on 5/6/2021.
 //
 
-
 import SwiftUI
 
 struct SearchingView: View {
     @StateObject var vm = SearchingVM()
+    @StateObject var locationVM = LocationVM()
+    
     @State private var errorMessage: String? = nil
     @State private var weatherModel: WeatherModel? = nil
     let searchByAll: [SearchBy] = SearchBy.allCases
@@ -21,7 +22,13 @@ struct SearchingView: View {
                 ForEach(searchByAll, id: \.self) { _searchBy in
                     Text(_searchBy.getDisplayName())
                 }
-            }.pickerStyle(SegmentedPickerStyle())
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .onChange(of: vm.searchBy, perform: { value in
+                if value == .location {
+                    locationVM.requestPermission()
+                }
+            })
             .frame(maxHeight: 50)
 
             if vm.searchBy == .zipcode {
@@ -41,10 +48,21 @@ struct SearchingView: View {
                     TextField("\(vm.searchBy.getDisplayName())", text: $vm.zipcode)
                         .padding()
                 case .location:
-                    TextField("Lon", text: $vm.lon)
+                    Text("Lon: \(locationVM.longitude)")
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.2)
                         .padding()
-                    TextField("Lat", text: $vm.lat)
+                        .onChange(of: locationVM.longitude, perform: { value in
+                            vm.lon = "\(value)"
+                        })
+                        
+                    Text("Lat: \(locationVM.latitude)")
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.2)
                         .padding()
+                        .onChange(of: locationVM.latitude, perform: { value in
+                            vm.lat = "\(value)"
+                        })
                 }
             }
 
