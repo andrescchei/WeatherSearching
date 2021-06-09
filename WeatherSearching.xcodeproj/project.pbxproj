@@ -27,6 +27,8 @@
 		58183E1C266CCB03003A3D84 /* CountryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58183E1B266CCB03003A3D84 /* CountryModel.swift */; };
 		58183E1E266E8A9D003A3D84 /* LocationVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58183E1D266E8A9D003A3D84 /* LocationVM.swift */; };
 		58183E20266EA0F3003A3D84 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58183E1F266EA0F3003A3D84 /* UserDefaults.swift */; };
+		58183E2326712537003A3D84 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 58183E2526712537003A3D84 /* InfoPlist.strings */; };
+		58183E2926712880003A3D84 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58183E2826712880003A3D84 /* Colors.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,9 @@
 		58183E1B266CCB03003A3D84 /* CountryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryModel.swift; sourceTree = "<group>"; };
 		58183E1D266E8A9D003A3D84 /* LocationVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationVM.swift; sourceTree = "<group>"; };
 		58183E1F266EA0F3003A3D84 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		58183E26267126F6003A3D84 /* en-AU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-AU"; path = "en-AU.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		58183E2726712714003A3D84 /* en-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-CA"; path = "en-CA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		58183E2826712880003A3D84 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		5C03DA127665D6AA3C4A5BC2 /* Pods-WeatherSearchingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherSearchingTests.release.xcconfig"; path = "Target Support Files/Pods-WeatherSearchingTests/Pods-WeatherSearchingTests.release.xcconfig"; sourceTree = "<group>"; };
 		64924C9A6C48D35B950A4B84 /* Pods_WeatherSearching.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherSearching.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D2E560426E6ADA74B9FFFA4 /* Pods-WeatherSearchingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherSearchingTests.debug.xcconfig"; path = "Target Support Files/Pods-WeatherSearchingTests/Pods-WeatherSearchingTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -232,6 +237,8 @@
 			isa = PBXGroup;
 			children = (
 				58183E17266CCA22003A3D84 /* countryCodeList.json */,
+				58183E2526712537003A3D84 /* InfoPlist.strings */,
+				58183E2826712880003A3D84 /* Colors.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -349,6 +356,8 @@
 			knownRegions = (
 				en,
 				Base,
+				"en-AU",
+				"en-CA",
 			);
 			mainGroup = 580F7206266A9F130037D797;
 			productRefGroup = 580F7210266A9F130037D797 /* Products */;
@@ -367,7 +376,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58183E2926712880003A3D84 /* Colors.xcassets in Resources */,
 				58183E18266CCA23003A3D84 /* countryCodeList.json in Resources */,
+				58183E2326712537003A3D84 /* InfoPlist.strings in Resources */,
 				580F721A266A9F140037D797 /* Preview Assets.xcassets in Resources */,
 				580F7217266A9F140037D797 /* Assets.xcassets in Resources */,
 			);
@@ -543,11 +554,24 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		58183E2526712537003A3D84 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				58183E26267126F6003A3D84 /* en-AU */,
+				58183E2726712714003A3D84 /* en-CA */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		580F7232266A9F140037D797 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -609,6 +633,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

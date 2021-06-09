@@ -11,8 +11,13 @@ struct RecentSearchView: View {
     @ObservedObject var vm : SearchingVM
     @Environment(\.presentationMode) var presentationMode
     
+    init(vm: SearchingVM) {
+        self.vm = vm
+        UITableView.appearance().backgroundColor = UIColor(named: "background")
+        UITableViewCell.appearance().backgroundColor = UIColor(named: "background")
+    }
+    
     var body: some View {
-        
         List {
             ForEach(vm.searches, id: \.self) { item in
                 ZStack {
@@ -24,7 +29,7 @@ struct RecentSearchView: View {
                     })
                 }
             }.onDelete(perform: self.deleteItem)
-            
+            .listRowBackground(Color.clear)
         }.navigationTitle("History")
         
     }

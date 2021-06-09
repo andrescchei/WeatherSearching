@@ -25,10 +25,13 @@ class UserDefaultsManager: ObservableObject {
         print((model.name,model.id))
         print(searches.map { ($0.name, $0.id) })
         let _searches = searches.filter {
-            model.name != $0.name && !(model.name?.isEmpty ?? true)
+            model.name != $0.name
         }
-        searches = [model] + _searches
+        if !(model.name?.isEmpty ?? true) {
+            searches = [model] + _searches
+        }
         return searches
+        
     }
    
 }

@@ -74,6 +74,7 @@ struct SearchingView: View {
                     Text("History")
                 }
             }.frame(maxHeight: .infinity, alignment: .topLeading)
+            .background(Color(UIColor(named: "background") ?? .white))
             .navigationBarHidden(true)
         }
     }
