@@ -10,9 +10,7 @@ import SwiftUI
 struct SearchingView: View {
     @StateObject var vm = SearchingVM()
     @StateObject var locationVM = LocationVM.shared
-    
-    @State private var errorMessage: String? = nil
-    @State private var weatherModel: WeatherModel? = nil
+        
     let searchByAll: [SearchBy] = SearchBy.allCases
     @State private var countries = ResourcesManager.shared.countryList
     
@@ -66,30 +64,13 @@ struct SearchingView: View {
                             })
                     }
                 }
-
-                SubscriptionView(
-                    content:
-                        VStack(spacing: 8.0) {
-                            Row(name: "Name:", value: weatherModel?.name)
-                            Row(name: "Temp:", value: weatherModel?.main?.temp.toString())
-                            Row(name: "Error:", value: errorMessage)
-                        },
-                    publisher: vm.$result)
-                { result in
-                    switch result {
-                    case .failure(let error):
-                        weatherModel = nil
-                        errorMessage = error.errorDescription
-                    case .success(let wm):
-                        weatherModel = wm
-                        errorMessage = nil
-                    case .none:
-                        weatherModel = UserDefaultsManager.shared.searches.first
-                        errorMessage = nil
-                    }
+                VStack(spacing: 8.0) {
+                    Row(name: "Name:", value: vm.weatherModel?.name)
+                    Row(name: "Temp:", value: vm.weatherModel?.main?.temp.toString())
+                    Row(name: "Error:", value: vm.errorMessage)
                 }
                 
-                NavigationLink(destination: RecentSearchView()) {
+                NavigationLink(destination: RecentSearchView(vm: vm)) {
                     Text("History")
                 }
             }.frame(maxHeight: .infinity, alignment: .topLeading)

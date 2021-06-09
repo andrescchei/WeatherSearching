@@ -12,20 +12,24 @@ class UserDefaultsManager: ObservableObject {
     
     static let shared = UserDefaultsManager()
     
-    @Published var searches: [WeatherModel] {
-        didSet {
-            UserDefaults.standard.setStructArray(searches, forKey: "searches")
+    var searches: [WeatherModel] {
+        set(newValue) {
+            UserDefaults.standard.setStructArray(newValue, forKey: "searches")
+        }
+        get {
+            return UserDefaults.standard.structArrayData(WeatherModel.self, forKey: "searches")
         }
     }
     
-    init() {
-        searches = UserDefaults.standard.structArrayData(WeatherModel.self, forKey: "searches")        
+    func addSearch(_ model: WeatherModel) -> [WeatherModel] {
+        print((model.name,model.id))
+        print(searches.map { ($0.name, $0.id) })
+        let _searches = searches.filter {
+            model.name != $0.name && !(model.name?.isEmpty ?? true)
+        }
+        searches = [model] + _searches
+        return searches
     }
-    
-    func addSearch(_ model: WeatherModel) {
-        searches = [model] + searches
-    }
-    
    
 }
 

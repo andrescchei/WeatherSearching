@@ -24,6 +24,7 @@ final class LocationVM: NSObject, ObservableObject {
     
     func requestPermission() {
         if self.locationManager.authorizationStatus == .authorizedWhenInUse || self.locationManager.authorizationStatus == .authorizedAlways {
+            startUpdatingLocation()
         } else {
             self.locationManager.requestAlwaysAuthorization()
             self.locationManager.requestWhenInUseAuthorization()

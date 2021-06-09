@@ -9,71 +9,78 @@ import Foundation
 
 typealias TimeInterval = Double
 
-struct WeatherModel : Codable {
-    let coord: Coordinate?
-    let weather: [WeatherConditionItem]?
-    let base: String?
-    let main: WeatherMain?
-    let visibility: Double?
-    let wind: Wind?
-    let rain: Volume?
-    let snow: Volume?
-    let dt: TimeInterval?
-    let sys: WeatherSystem?
-    let timezone: TimeInterval?
-    let id: Int?
-    let name: String?
-    let cod: Int?
+struct WeatherModel : Codable, Identifiable, Hashable {
+    static func == (lhs: WeatherModel, rhs: WeatherModel) -> Bool {
+        lhs.id == rhs.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    var coord: Coordinate?
+    var weather: [WeatherConditionItem]?
+    var base: String?
+    var main: WeatherMain?
+    var visibility: Double?
+    var wind: Wind?
+    var rain: Volume?
+    var snow: Volume?
+    var dt: TimeInterval?
+    var sys: WeatherSystem?
+    var timezone: TimeInterval?
+    var id: Int?
+    var name: String?
+    var cod: Int?
 }
 
 //coord
 struct Coordinate  : Codable {
-    let lon: Double?
-    let lat: Double?
+    var lon: Double?
+    var lat: Double?
 }
 
 //weather
 struct WeatherConditionItem : Codable {
-    let id: Int?
-    let main: String?
-    let description: String?
-    let icon: String?
+    var id: Int?
+    var main: String?
+    var description: String?
+    var icon: String?
 }
 
 //main
 struct WeatherMain : Codable {
-    let temp: Double?
-    let feels_like: Double?
-    let temp_min: Double?
-    let temp_max: Double?
-    let pressure: Double?
-    let humidity: Double?
-    let sea_level: Double?
-    let grnd_level: Double?
+    var temp: Double?
+    var feels_like: Double?
+    var temp_min: Double?
+    var temp_max: Double?
+    var pressure: Double?
+    var humidity: Double?
+    var sea_level: Double?
+    var grnd_level: Double?
 }
 
 //wind
 struct Wind : Codable {
-    let speed: Double?
-    let deg: Double?
-    let gust: Double?
+    var speed: Double?
+    var deg: Double?
+    var gust: Double?
 }
 
 //clouds
 struct Clouds : Codable {
-    let all: Double?
+    var all: Double?
 }
 
 struct Volume : Codable {
-    let h1: Double?
-    let h3: Double?
+    var h1: Double?
+    var h3: Double?
 }
 
 //sys
 struct WeatherSystem : Codable {
-    let type: Int?
-    let id: Int?
-    let country: String?
-    let sunrise: TimeInterval?
-    let sunset: TimeInterval?
+    var type: Int?
+    var id: Int?
+    var country: String?
+    var sunrise: TimeInterval?
+    var sunset: TimeInterval?
 }

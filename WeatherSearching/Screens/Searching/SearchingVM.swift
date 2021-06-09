@@ -27,8 +27,8 @@ enum SearchBy: CaseIterable {
 
 final class SearchingVM: ObservableObject {
     // input
-    @Published var searchBy: SearchBy = .zipcode
-    @Published var name = ""
+    @Published var searchBy: SearchBy = .name
+    @Published var name = UserDefaultsManager.shared.searches.first?.name ?? ""
     @Published var zipcode = ""
     @Published var lon = ""
     @Published var lat = ""
@@ -36,6 +36,13 @@ final class SearchingVM: ObservableObject {
   
     // output
     @Published var result: Result<WeatherModel, AFError>? = nil
+    @Published var weatherModel: WeatherModel? = nil
+    @Published var errorMessage: String? = nil
+    @Published var searches = UserDefaultsManager.shared.searches {
+        didSet {
+            UserDefaultsManager.shared.searches = searches
+        }
+    }
     
     var bag = Set<AnyCancellable>()
     
@@ -44,55 +51,37 @@ final class SearchingVM: ObservableObject {
         let zipCodePub = Publishers.CombineLatest(
             $zipcode.removeDuplicates(),
             $selectedCountry.removeDuplicates())
+            .map { _ in SearchBy.zipcode }
         
         let locationPub = Publishers.CombineLatest(
             $lon.removeDuplicates(),
             $lat.removeDuplicates())
+            .map { _ in SearchBy.location }
         
-        Publishers.CombineLatest3(
-            $name.removeDuplicates(),
+        let namePub = $name.removeDuplicates().map { _ in SearchBy.name }
+        
+        Publishers.Merge3(
+            namePub,
             zipCodePub,
             locationPub)
             .debounce(for: 0.8, scheduler: RunLoop.main)
             .print()
-            .map { [weak self] (name, zipPair, locationPair) -> Any? in
-                guard let self = self else { return nil }
-                switch self.searchBy {
-                case .name:
-                    return name
-                case .zipcode:
-                    return zipPair
-                case .location:
-                    return locationPair
-                }
-            }
-            .filter { any in
-                if let anyString = any as? String {
-                    return !anyString.isEmpty
-                } else if let (zip, country) = any as? (String, String) {
-                    return !zip.isEmpty && !country.isEmpty
-                } else if let (lon, lat) = any as? (String, String) {
-                    return !lon.isEmpty && !lat.isEmpty
-                } else {
-                    return false
-                }
-            }
-            .flatMap { [weak self] any -> AnyPublisher<Result<WeatherModel, AFError>, Never> in
+            .prepend([SearchBy.name])
+            .flatMap { [weak self] searchBy -> AnyPublisher<Result<WeatherModel, AFError>, Never> in
                 guard let self = self,
-                      let safeAny = any
+                      searchBy == self.searchBy
                     else { return Empty().eraseToAnyPublisher() }
-                switch self.searchBy {
+                switch searchBy {
                 case .name:
-                    guard let name: String = safeAny as? String else { return Empty().eraseToAnyPublisher() }
-                    return NetworkManager.shared.getWeatherByCityName(name: name)
+                    guard !self.name.isEmpty else { return Empty().eraseToAnyPublisher() }
+                    return NetworkManager.shared.getWeatherByCityName(name: self.name)
                 case .zipcode:
-                    print("zipcode: \(safeAny)")
-                    guard let (zipcode, country) = safeAny as? (String, String)
-                          else { return Empty().eraseToAnyPublisher() }
-                    return NetworkManager.shared.getWeatherByZipcode(code: zipcode, country: country)
+                    guard !self.zipcode.isEmpty && !self.selectedCountry.isEmpty
+                        else { return Empty().eraseToAnyPublisher() }
+                    return NetworkManager.shared.getWeatherByZipcode(code: self.zipcode, country: self.selectedCountry)
                 case .location:
-                    guard let (lon, lat) = safeAny as? (String, String) else { return Empty().eraseToAnyPublisher() }
-                    return NetworkManager.shared.getWeatherByGPS(lon: lon, lat: lat)
+                    guard !self.lon.isEmpty && !self.lat.isEmpty else { return Empty().eraseToAnyPublisher() }
+                    return NetworkManager.shared.getWeatherByGPS(lon: self.lon, lat: self.lat)
                 }
             }
             .sink(receiveCompletion: { completion in
@@ -106,15 +95,18 @@ final class SearchingVM: ObservableObject {
             }) { [weak self] result in
                 print("getWeather result \(result)")
                 self?.result = result
-                guard let _result = try? result.get() else { return }
-                UserDefaultsManager.shared.addSearch(_result)
+                switch result {
+                case .failure(let error):
+                    self?.errorMessage = error.errorDescription
+                    self?.weatherModel = nil
+                case .success(let weatherModel):
+                    self?.weatherModel = weatherModel
+                    self?.errorMessage = nil
+                    self?.searches = UserDefaultsManager.shared.addSearch(weatherModel)
+                }
             }
             .store(in: &bag)
-        
-        UserDefaultsManager.shared.$searches.sink { array in
-            print("DLLM")
-            print(array.first)
-        }.store(in: &bag)
+    
     }
 
 }
