@@ -66,7 +66,7 @@ struct SearchingView: View {
                 }
                 VStack(spacing: 8.0) {
                     Row(name: "Name:", value: vm.weatherModel?.name)
-                    Row(name: "Temp:", value: vm.weatherModel?.main?.temp.toString())
+                    Row(name: "Temp:", value: vm.weatherModel?.main?.temp.toString().addCelsius())
                     Row(name: "Error:", value: vm.errorMessage)
                 }
                 
@@ -105,9 +105,3 @@ struct SerachingView_Previews: PreviewProvider {
     }
 }
 
-extension Optional where Wrapped == Double {
-    func toString() -> String {
-        guard let safe = self else { return "" }
-        return "\(safe)"
-    }
-}
