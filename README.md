@@ -1,5 +1,5 @@
 # WeatherSearching
-
+Please use Xcode with version 12.5 or above
 ## Step to build
 1. pod install
 2. open workspace
